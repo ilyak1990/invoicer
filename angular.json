@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "0ec0d6a8-f2df-47ed-b5ae-584ba762b794"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -96,7 +99,11 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/pdfmake/build/pdfmake.min.js",
+							"node_modules/pdfmake/build/vfs_fonts.js",
+							"node_modules/jszip/dist/jszip.min.js"
+            ]
           }
         }
       }
