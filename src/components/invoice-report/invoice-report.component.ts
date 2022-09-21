@@ -48,12 +48,15 @@ export class InvoiceReportComponent implements AfterViewInit {
   }
 
   appendReport(htmlElement: any) {
-    html2canvas(htmlElement).then(canvas => {
+    console.log(htmlElement)
+    //html2canvas(htmlElement).then(canvas => {
      this.reportPdfService.getInvoiceReportPdf(this.invoice_no).then((data:any)=>{
        //console.log(JSON.stringify(data) + " data? ")
       var docDefinition=data;
+      console.log(data)
      // console.log("docDefinition IN INVOICE-REPORT "+ docDefinition)
       pdfMake.createPdf(docDefinition).getDataUrl((dataUrl:any) => {
+        console.log(dataUrl,"?")
       //  console.log("firing in pdf make jawn")
         const targetElement = document.querySelector('#reportpdf');
         const iframe = document.createElement('iframe');
@@ -67,7 +70,7 @@ export class InvoiceReportComponent implements AfterViewInit {
       });
     });
 
-    });
+   // });
 
   }
 }

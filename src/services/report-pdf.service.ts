@@ -87,13 +87,14 @@ export class ReportPdfService {
   }
 
    generatePDF(invoice:Invoice,invoiceItems:InvoiceItem[]) {
+    //invoice = invoice
  const isPaid=(invoice.payment_no!==null && invoice.payment_no!==undefined)
  const totalCost=this.currencyPipe.transform(Number(invoice.total_cost), 'USD', 'symbol', '1.2-2');
 
  var individualItems =  this.buildItemsJson(invoiceItems);
 
+ console.log(invoice, " INVOICE")
 
-console.log("isPaid" + isPaid)
     return {
       content: [
         {

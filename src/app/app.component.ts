@@ -11,10 +11,10 @@ export class AppComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.http.get("http://localhost:3000/hello", {responseType: 'text'}).subscribe((response) => {
-    console.log(response)  
-    this.title = response;
-    })
+    // this.http.get("http://localhost:3000/hello", {responseType: 'text'}).subscribe((response) => {
+    // console.log(response)  
+    // this.title = response;
+    // })
   }
   title = 'FrontEndApp';
 
