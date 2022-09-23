@@ -138,7 +138,7 @@ export class ReportPdfService {
                   {
                     columns: [
                       {
-                        text: 'Date Issued',
+                        text: 'Date Issued:',
                         color: '#aaaaab',
                         bold: true,
                         width: '*',
@@ -146,7 +146,7 @@ export class ReportPdfService {
                         alignment: 'right',
                       },
                       {
-                        text: invoice.invoice_date,
+                        text: invoice.invoice_date.toDateString(),
                         bold: true,
                         color: '#333333',
                         fontSize: 12,
@@ -379,7 +379,7 @@ export class ReportPdfService {
                 },
                 {
                   border: [false, true, false, true],
-                  text:  totalCost,
+                  text: "USD $"+ "420.00",
                   alignment: 'right',
                   fillColor: '#f5f5f5',
                   margin: [0, 5, 0, 5],
@@ -410,7 +410,7 @@ export class ReportPdfService {
                   margin: [0, 5, 0, 5],
                 },
                 {
-                  text: "USD "+ totalCost,
+                  text: "USD $"+ "420.00",
                   bold: true,
                   fontSize: 20,
                   alignment: 'right',

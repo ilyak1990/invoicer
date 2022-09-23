@@ -61,7 +61,7 @@ export class InvoiceReportComponent implements AfterViewInit {
         const targetElement = document.querySelector('#reportpdf');
         const iframe = document.createElement('iframe');
         iframe.src = dataUrl;
-        iframe.setAttribute('height', '750px');
+        iframe.setAttribute('height', '1000px');
         iframe.setAttribute('width', '95%');
         targetElement?.appendChild(iframe);
         this.dataLoaded = true;
