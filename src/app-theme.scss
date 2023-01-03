@@ -1,0 +1,34 @@
+@import '@angular/material/theming';
+$myrna-custom-primary:(
+    Main: #ff6046,
+    Light:#ff6046,
+    Dark: #ff6046,
+    contrast: (
+        Main: #fefefd,
+        Light: #fefefd,
+        Dark: #fefefd
+));
+
+$myrna-custom-secondary:(
+    Main: #2ecc71,
+    Light:#2ecc71,
+    Dark: #2ecc71,
+    contrast: (
+        Main: #fefefd,
+        Light: #fefefd,
+        Dark: #fefefd
+));
+
+$myrna-warn: $mat-red;
+
+ $myrna-theme-primary: mat-palette($myrna-custom-primary, Light);
+ $myrna-theme-accent: mat-palette($myrna-custom-secondary, Light);
+$myrna-theme-warn: mat-palette($myrna-warn);
+
+
+// create theme (use mat-dark-theme for themes with dark backgrounds)
+$myrna-theme: mat-light-theme(
+    $myrna-theme-primary,
+    $myrna-theme-accent,
+    $myrna-theme-warn
+);

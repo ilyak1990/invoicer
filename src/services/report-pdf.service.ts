@@ -1,7 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { InvoiceItem } from 'src/models/invoice-item.model';
 import { Invoice } from 'src/models/invoice.model';
 import { InvoiceService } from './invoice-service.service';
@@ -11,10 +11,9 @@ import { InvoiceService } from './invoice-service.service';
   providedIn: 'root'
 })
 export class ReportPdfService {
-  currentInvoice: Invoice;
-  currentInvoiceItems:InvoiceItem[];
+  currentInvoice: any;
+  currentInvoiceItems:any;
   pdfContent:any;
-  isCreator = false;
 
   constructor(private invoiceService: InvoiceService, private router:Router, private currencyPipe:CurrencyPipe) {
     this.invoiceService = invoiceService;
@@ -22,14 +21,21 @@ export class ReportPdfService {
 
   }
 
-    getInvoiceReportPdf(invoice_no:string):Promise<any>{
-      return new Promise(resolve=>{ this.invoiceService.getInvoiceReportData(invoice_no).subscribe(
+    getInvoiceReportPdf(invoiceBody:any):Promise<any>{
+
+      let $allLineItems = of({result:invoiceBody.line_items})
+      //delete invoiceBody['line_items'];
+      let $onlyBody = of({result:invoiceBody})
+
+      console.log(invoiceBody.line_items  + ' the line items')
+      console.log(JSON.stringify(invoiceBody) + " the invoice body")
+
+      return new Promise(resolve=>{ $onlyBody.subscribe(
       (response) => {
         if (response) {
-          this.isCreator = (localStorage['currentUser'] !== undefined) ? localStorage['currentUser'].id === response.result.creator_id : false;
           this.currentInvoice = response.result;
   
-          this.invoiceService.getAllInvoiceItems(this.currentInvoice.invoice_no).subscribe(
+          $allLineItems.subscribe(
             (itemResponse) => {
               if (itemResponse) {
                 this.currentInvoiceItems=itemResponse.result;
@@ -44,9 +50,9 @@ export class ReportPdfService {
       })
 
     })
-
   }
-  buildItemsJson(items:InvoiceItem[]):any{
+
+  buildItemsJson(items:any):any{
     const finalResult={}
     var individualItems = [];  
 
@@ -86,9 +92,10 @@ export class ReportPdfService {
 
   }
 
-   generatePDF(invoice:Invoice,invoiceItems:InvoiceItem[]) {
+   generatePDF(invoice:any,invoiceItems:any) {
+    console.log(invoice + " ??")
     //invoice = invoice
- const isPaid=(invoice.payment_no!==null && invoice.payment_no!==undefined)
+//  const isPaid=(invoice.payment_no!==null && invoice.payment_no!==undefined)
  const totalCost=this.currencyPipe.transform(Number(invoice.total_cost), 'USD', 'symbol', '1.2-2');
 
  var individualItems =  this.buildItemsJson(invoiceItems);
@@ -379,7 +386,7 @@ export class ReportPdfService {
                 },
                 {
                   border: [false, true, false, true],
-                  text: "USD $"+ "420.00",
+                  text: this.currencyPipe.transform(Number(invoice.total_cost), 'USD', 'symbol', '1.2-2'),
                   alignment: 'right',
                   fillColor: '#f5f5f5',
                   margin: [0, 5, 0, 5],
@@ -410,7 +417,7 @@ export class ReportPdfService {
                   margin: [0, 5, 0, 5],
                 },
                 {
-                  text: "USD $"+ "420.00",
+                  text :this.currencyPipe.transform(Number(invoice.total_cost), 'USD', 'symbol', '1.2-2'),
                   bold: true,
                   fontSize: 20,
                   alignment: 'right',

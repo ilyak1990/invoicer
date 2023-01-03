@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^14.2.2",
     "@angular/platform-browser-dynamic": "^14.2.2",
     "@angular/router": "^14.2.2",
+    "bootstrap": "^5.2.2",
     "html2canvas": "^1.4.1",
     "pdfmake": "^0.2.5",
     "pdfmake-unicode": "0.0.1",

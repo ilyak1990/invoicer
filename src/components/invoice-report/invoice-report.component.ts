@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import * as pdfMake  from "pdfmake/build/pdfmake";
 import * as pdfFontsX from 'pdfmake-unicode/dist/pdfmake-unicode.js';
 import html2canvas from 'html2canvas';
@@ -21,7 +21,7 @@ import { ReportPdfService } from 'src/services/report-pdf.service';
   styleUrls: ['./invoice-report.component.css']
 })
 
-export class InvoiceReportComponent implements AfterViewInit {
+export class InvoiceReportComponent implements AfterViewInit,OnChanges {
 
   @ViewChild('exportthis') myDiv: ElementRef;
   //@ViewChild('sPad',{static:true}) signaturePadElement;
@@ -33,24 +33,35 @@ export class InvoiceReportComponent implements AfterViewInit {
   fireAfterInit = false;
   invoice_no = "0";
 
+  @Input()
+  reportData:any
+
   constructor(private router: Router,public dialog: MatDialog, private reportPdfService: ReportPdfService ) {
     this.router = router;
     this.reportPdfService=reportPdfService;
     pdfMake.vfs = pdfFontsX.pdfMake.vfs;
     
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!changes.reportData.firstChange)
+    {
+    console.log(changes)
+    console.log(changes.reportData.currentValue)
+    this.appendReport(this.myDiv.nativeElement, changes.reportData.currentValue)
+    }
+  }
 
   ngAfterViewInit(): void {
     var splitURL = this.router.url.split('/')
     this.invoice_no = "0"
     console.log(this.invoice_no + ' no# being passed into appendReport')
-    this.appendReport(this.myDiv.nativeElement);
+    //this.appendReport(this.myDiv.nativeElement);
   }
 
-  appendReport(htmlElement: any) {
-    console.log(htmlElement)
+  appendReport(htmlElement: any,invoiceBody:any) {
+    //console.log(htmlElement)
     //html2canvas(htmlElement).then(canvas => {
-     this.reportPdfService.getInvoiceReportPdf(this.invoice_no).then((data:any)=>{
+     this.reportPdfService.getInvoiceReportPdf(invoiceBody).then((data:any)=>{
        //console.log(JSON.stringify(data) + " data? ")
       var docDefinition=data;
       console.log(data)

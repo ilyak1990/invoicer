@@ -1,0 +1,81 @@
+<mat-card class="mat-elevation-z4 margin-bottom">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image">
+            <mat-icon style="margin-right:10px">
+                <span class="material-icons-outlined">
+                    add
+                </span>
+            </mat-icon>
+        </div>
+        <mat-card-title>Add Line Item</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="createIngredient">
+            <section fxLayout="row wrap" fxLayout.lt-lg="column">
+                <mat-form-field class="margin-right-1x" fxFlex="20">
+                    <mat-label>Name</mat-label>
+                    <input type="text" #name matInput maxlength="50" formControlName="name"
+                        placeholder="Line Item Name" id="name" required>
+                    <mat-hint>{{name.value?.length || 0}}/50</mat-hint>
+                    <!-- <mat-error>
+                        Line Item Name required
+                    </mat-error> -->
+                </mat-form-field>
+
+
+                <mat-form-field class="margin-right-1x" fxFlex="20">
+                    <mat-label>Rate Type</mat-label>
+                    <mat-select (blur)="getTotalCost()" formControlName="rate_type" #rateType>
+                        <mat-option [value]="option" *ngFor="let option of rateTypes">{{ option
+                            }}
+                        </mat-option>
+                    </mat-select>
+                    <!-- <mat-error>
+                        Weight Unit is required
+                    </mat-error> -->
+                </mat-form-field>
+
+                <mat-form-field class="margin-right-1x padding-bottom-10px" fxFlex="20">
+                    <mat-label>Rate</mat-label>
+                    <input type="text" #rate matInput
+                        formControlName="rate" id="rate" (blur)="formatNumber($event)" (change)="getTotalCost()" [value]="formattedRate"
+                       placeholder="$1,000,000.00" required>
+
+                    <!-- <mat-error>
+                        Please enter a positive number for fiber
+                    </mat-error> -->
+                </mat-form-field>
+                <mat-form-field class="margin-right-1x padding-bottom-10px" fxFlex="20">
+                    <mat-label>Hours</mat-label>
+                    <input type="number" (change)="getTotalCost()" #hours matInput
+                        maxlength="3" formControlName="hours" placeholder="Hours" id="hours" [required]="false" [readonly]="false">
+                        
+<!-- 
+                    <mat-error>
+                        Please enter a positive number for fat
+                    </mat-error> -->
+                </mat-form-field>
+                <mat-form-field class="margin-right-1x padding-bottom-10px" fxFlex="20">
+                    <mat-label>Cost</mat-label>
+                    <input type="text" #cost matInput
+                        maxlength="3" formControlName="cost" placeholder="Cost" id="cost"  [value]="totalCost" readonly>
+<!-- 
+                    <mat-error>
+                        Please enter a positive number for carbs
+                    </mat-error> -->
+                </mat-form-field>
+            </section>
+            <div>
+                <!-- <div mat-dialog-actions class="justify-content-center"> -->
+                <button (click)="submitCreateIngredient()" class="margin-top-1x margin-right-1x"
+                    [disabled]="(createIngredient.invalid)" mat-raised-button color="accent">
+                    <span *ngIf="!data">Add</span> <span *ngIf="data">Save</span></button>
+                    
+                <button (click)="cancelCreateIngredient()" class="margin-top-1x" mat-raised-button color="warn">
+                    Cancel</button>
+            </div>
+            <!-- </div> -->
+
+        </form>
+    </mat-card-content>
+</mat-card>
